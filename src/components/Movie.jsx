@@ -1,21 +1,42 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components/macro';
+import { Button } from 'reactstrap';
 import { ReactComponent as Trophy } from '../assets/trophy-outline.svg';
+import { ReactComponent as Add } from '../assets/add-outline.svg';
+import { ReactComponent as Remove } from '../assets/close-outline.svg';
 
 function Movie(props) {
-  const { Poster, Title, Year, handleClick, nominated } = props;
+  const {
+    Poster,
+    Title,
+    Year,
+    handleClick,
+    nominated,
+    isNominationList,
+  } = props;
   return (
     <Wrapper>
-      <div className="movie-card" onClick={() => handleClick(props)}>
+      <div className="movie-card">
         <img src={Poster} alt={Title} />
         <h3>{Title}</h3>
         <h4>{Year}</h4>
-
-        {nominated && (
-          <div className="trophy">
-            <Trophy />
-          </div>
-        )}
+        <div className="button-container">
+          {!isNominationList && (
+            <Button disabled={nominated} onClick={() => handleClick(props)}>
+              <Add />
+            </Button>
+          )}
+          {(nominated || isNominationList) && (
+            <Button onClick={() => handleClick(props)}>
+              <Remove />
+            </Button>
+          )}
+          {(nominated || isNominationList) && (
+            <div className="trophy">
+              <Trophy />
+            </div>
+          )}
+        </div>
       </div>
     </Wrapper>
   );
@@ -27,6 +48,7 @@ Movie.propTypes = {
   Poster: PropTypes.string.isRequired,
   handleClick: PropTypes.func.isRequired,
   nominated: PropTypes.bool,
+  isNominationList: PropTypes.bool,
 };
 
 export default Movie;
@@ -57,25 +79,40 @@ const Wrapper = styled.li`
       width: 100%;
     }
 
-    .trophy {
-      position: relative;
+    .button-container {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 32px;
-      width: 32px;
-      border: 1.5px solid gold;
-      border-radius: 50%;
+      justify-content: space-between;
+      width: 100%;
 
-      svg {
-        height: 24px;
-        width: 24px;
-        color: gold;
+      button,
+      .trophy {
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 32px;
+        width: 32px;
+        border-radius: 50%;
+
+        svg {
+          height: 24px;
+          width: 24px;
+        }
       }
-    }
 
-    &:hover {
-      background-color: #a8a8a8;
+      button {
+        background-color: white;
+        border: 1.5px solid black;
+        svg {
+          color: black;
+        }
+      }
+
+      .trophy {
+        svg {
+          color: gold;
+        }
+      }
     }
   }
 `;
