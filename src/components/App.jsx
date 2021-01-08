@@ -10,36 +10,75 @@ import {
   Container,
   Row,
   Col,
+  Spinner,
 } from 'reactstrap';
 import Movie from './Movie';
 
 function App() {
-  const [movies, setMovies] = useState({});
-  const [searchTerm, setSearchTerm] = useState('');
-  const [nominated, setNominated] = useState([]);
-  const [error, setError] = useState('');
+  const [{ movies, searchTerm, nominated, status }, setState] = useState({
+    movies: {},
+    searchTerm: '',
+    nominated: [],
+    status: 'idle',
+  });
 
-  useEffect(() => {
+  const searchMovie = () => {
+    if (searchTerm === '') return;
+    setState((prevState) => {
+      return { ...prevState, status: 'pending' };
+    });
     const { REACT_APP_OMDB } = process.env;
     const url = `https://www.omdbapi.com/?apikey=${REACT_APP_OMDB}&type=movie&s=${searchTerm}`;
-    axios.get(url).then(({ data }) => setMovies(data));
+    axios
+      .get(url)
+      .then(({ data }) =>
+        setState((prevState) => {
+          return { ...prevState, movies: data, status: 'resolved' };
+        }),
+      )
+      .catch((error) => {
+        console.error(error);
+        setState((prevState) => {
+          return { ...prevState, status: 'rejected' };
+        });
+      });
+  };
+
+  useEffect(() => {
+    const timeOutId = setTimeout(() => {
+      searchMovie();
+    }, 500);
+    return () => clearTimeout(timeOutId);
   }, [searchTerm]);
 
-  const handleClear = () => setSearchTerm('');
+  const handleClear = () =>
+    setState((prevState) => {
+      return { ...prevState, searchTerm: '', status: 'idle' };
+    });
 
-  const handleChange = (event) => setSearchTerm(event.target.value);
+  const handleChange = (event) =>
+    setState((prevState) => {
+      return { ...prevState, searchTerm: event.target.value };
+    });
 
   const handleClick = (selected) => {
     const exists = nominated.find((movie) => selected.imdbID === movie.imdbID);
     if (exists) {
-      if (error) setError('');
       const nominatedMovies = nominated.filter(
         (movie) => movie.imdbID !== selected.imdbID,
       );
-      setNominated(nominatedMovies);
+      setState((prevState) => {
+        return { ...prevState, nominated: nominatedMovies };
+      });
     } else {
-      if (nominated.length >= 5) setError('Maximum nominations reached');
-      else setNominated([...nominated, selected]);
+      if (nominated.length >= 5)
+        setState((prevState) => {
+          return { ...prevState, status: 'error' };
+        });
+      else
+        setState((prevState) => {
+          return { ...prevState, nominated: [...nominated, selected] };
+        });
     }
   };
 
@@ -72,7 +111,6 @@ function App() {
           <Col>
             <MessageWrapper>
               <p>Pick up to five movies that you wish to nominate</p>
-              {error && <div className="error">{error}</div>}
             </MessageWrapper>
           </Col>
         </Row>
@@ -80,31 +118,67 @@ function App() {
         <section className="movie-lists">
           <div className="search-results">
             <h2>Search Results</h2>
-            <MovieList>
-              {!_.isEmpty(movies) &&
-                movies.Search?.map((currentMovie) => {
-                  const exists = nominated.find(
-                    (movie) => currentMovie.imdbID === movie.imdbID,
-                  );
-                  return (
-                    <Movie
-                      key={currentMovie.imdbID}
-                      handleClick={handleClick}
-                      nominated={Boolean(exists)}
-                      {...currentMovie}
-                    />
-                  );
-                })}
-            </MovieList>
+            {status === 'pending' && <Spinner color="dark" />}
+            {status === 'rejected' && (
+              <div className="card text-white bg-danger" role="alert">
+                <div className="card-body">
+                  <p className="card-text">
+                    There was a problem with your search
+                  </p>
+                </div>
+              </div>
+            )}
+            {status === 'idle' && (
+              <div className="card bg-light">
+                <div className="card-body">
+                  <p className="card-text">
+                    Use the search bar to find a movie to nominate
+                  </p>
+                </div>
+              </div>
+            )}
+            {status === 'resolved' && movies.Error && (
+              <div className="card text-white bg-danger" role="alert">
+                <div className="card-body">
+                  <p className="card-text">No movies matching your search</p>
+                </div>
+              </div>
+            )}
+            {status === 'resolved' && (
+              <MovieList>
+                {!_.isEmpty(movies) &&
+                  movies.Search?.map((currentMovie) => {
+                    const exists = nominated.find(
+                      (movie) => currentMovie.imdbID === movie.imdbID,
+                    );
+                    return (
+                      <Movie
+                        key={currentMovie.imdbID}
+                        handleClick={handleClick}
+                        nominated={Boolean(exists)}
+                        {...currentMovie}
+                      />
+                    );
+                  })}
+              </MovieList>
+            )}
           </div>
           <div className="nominated-list">
             <h2>{`Your Nominations (${nominated?.length}/5)`}</h2>
+            {nominated?.length === 5 && (
+              <div className="card text-white bg-success">
+                <div className="card-body">
+                  <p className="card-text">Thank you for your nominations!</p>
+                </div>
+              </div>
+            )}
             <MovieList nominated>
               {nominated?.map((movie) => (
                 <Movie
                   key={movie.imdbID}
                   handleClick={handleClick}
-                  nominated={true}
+                  nominated
+                  isNominationList
                   {...movie}
                 />
               ))}
