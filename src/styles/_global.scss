@@ -1,5 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
+$body-color: #f8f9fa;
+$gray: #adb5bd;
+
 $montserrat: 'Montserrat', sans-serif;
 $roboto: 'Roboto', sans-serif;
 
@@ -12,6 +15,7 @@ body {
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
+  background-color: $body-color;
 }
 
 h1,
@@ -22,4 +26,26 @@ h5,
 h6 {
   font-family: $montserrat;
   font-weight: 400;
+}
+
+.separator {
+  width: 100%;
+  border-bottom: 1.5px solid $gray;
+}
+
+// BUTTONS
+
+.btn {
+  &.btn-outline {
+    background-color: inherit;
+    border: 1px solid black;
+    color: black;
+
+    &:hover,
+    &:focus,
+    &:active {
+      background: black;
+      color: white;
+    }
+  }
 }
