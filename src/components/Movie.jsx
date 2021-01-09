@@ -92,7 +92,7 @@ const Wrapper = styled.li`
       align-items: center;
       width: 175px;
       height: 243px;
-      border: 1px solid black;
+      border: 1px solid #a8a8a8;
       border-radius: 15px;
 
       svg {
