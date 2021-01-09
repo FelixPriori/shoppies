@@ -58,6 +58,7 @@ function App() {
   };
 
   useEffect(() => {
+    // waits 500ms before searching to prevent spaming the api
     const timeOutId = setTimeout(() => {
       searchMovie();
     }, 500);
@@ -114,10 +115,20 @@ function App() {
               </Button>
             </FormWrapper>
           </Col>
-          <Col>
-            <MessageWrapper>
-              <p>Pick up to five movies that you wish to nominate</p>
-            </MessageWrapper>
+          <Col className="rules">
+            <div className="card bg-light">
+              <div className="card-body">
+                <h3>Instructions</h3>
+                <ul>
+                  <li>Use the search bar to search for your favourite films</li>
+                  <li>
+                    Pick films that you think should be nominated for a Shoppy
+                    Award
+                  </li>
+                  <li>You add up to 5 films to the nominations list</li>
+                </ul>
+              </div>
+            </div>
           </Col>
         </Row>
         <div className="separator" />
@@ -206,6 +217,12 @@ const Wrapper = styled.div`
     height: 5rem;
   }
 
+  .rules {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .movie-lists {
     display: flex;
     padding: 3em 0;
@@ -235,9 +252,4 @@ const MovieList = styled.ul`
 const FormWrapper = styled.section`
   padding: 3em 0;
   max-width: 350px;
-`;
-
-const MessageWrapper = styled.div`
-  padding: 3em 0;
-  text-align: right;
 `;
