@@ -61,24 +61,21 @@ function App() {
       return { ...prevState, searchTerm: event.target.value };
     });
 
-  const handleClick = (selected) => {
-    const exists = nominated.find((movie) => selected.imdbID === movie.imdbID);
+  const handleClick = (id) => {
+    const exists = nominated.find((movie) => movie.imdbID === id);
     if (exists) {
-      const nominatedMovies = nominated.filter(
-        (movie) => movie.imdbID !== selected.imdbID,
-      );
+      const nominatedMovies = nominated.filter((movie) => movie.imdbID !== id);
       setState((prevState) => {
         return { ...prevState, nominated: nominatedMovies };
       });
     } else {
-      if (nominated.length >= 5)
-        setState((prevState) => {
-          return { ...prevState, status: 'error' };
-        });
-      else
+      if (nominated.length >= 5) return;
+      else {
+        const selected = movies.Search.find((movie) => movie.imdbID === id);
         setState((prevState) => {
           return { ...prevState, nominated: [...nominated, selected] };
         });
+      }
     }
   };
 
@@ -231,7 +228,7 @@ const FormWrapper = styled.section`
   max-width: 350px;
 `;
 
-const MessageWrapper = styled.section`
+const MessageWrapper = styled.div`
   padding: 3em 0;
   text-align: right;
 `;
