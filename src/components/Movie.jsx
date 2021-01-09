@@ -4,6 +4,7 @@ import { Button } from 'reactstrap';
 import { ReactComponent as Trophy } from '../assets/trophy-outline.svg';
 import { ReactComponent as Add } from '../assets/add-outline.svg';
 import { ReactComponent as Remove } from '../assets/close-outline.svg';
+import { ReactComponent as Sad } from '../assets/sad-outline.svg';
 
 function Movie(props) {
   const {
@@ -15,10 +16,18 @@ function Movie(props) {
     isNominationList,
     imdbID,
   } = props;
+
   return (
     <Wrapper>
       <div className="movie-card">
-        <img src={Poster} alt={Title} />
+        {Poster === 'N/A' ? (
+          <div className="unavailable">
+            <Sad />
+            <p>Image unavailable</p>
+          </div>
+        ) : (
+          <img src={Poster} alt={Title} />
+        )}
         <h3>{Title}</h3>
         <h4>{Year}</h4>
         <div className="button-container">
@@ -74,6 +83,22 @@ const Wrapper = styled.li`
     img {
       width: 175px;
       border-radius: 15px;
+    }
+
+    .unavailable {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 175px;
+      height: 243px;
+      border: 1px solid black;
+      border-radius: 15px;
+
+      svg {
+        height: 50px;
+        width: 50px;
+      }
     }
 
     h3,
