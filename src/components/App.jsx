@@ -206,6 +206,10 @@ const Wrapper = styled(Container)`
     display: flex;
     padding: 3em 0;
 
+    .card {
+      margin: 2em 0;
+    }
+
     .search-results {
       flex: 1 1 50%;
     }
