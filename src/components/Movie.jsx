@@ -13,6 +13,7 @@ function Movie(props) {
     handleClick,
     nominated,
     isNominationList,
+    imdbID,
   } = props;
   return (
     <Wrapper>
@@ -22,12 +23,12 @@ function Movie(props) {
         <h4>{Year}</h4>
         <div className="button-container">
           {!isNominationList && (
-            <Button disabled={nominated} onClick={() => handleClick(props)}>
+            <Button disabled={nominated} onClick={() => handleClick(imdbID)}>
               <Add />
             </Button>
           )}
           {(nominated || isNominationList) && (
-            <Button onClick={() => handleClick(props)}>
+            <Button onClick={() => handleClick(imdbID)}>
               <Remove />
             </Button>
           )}
@@ -47,6 +48,7 @@ Movie.propTypes = {
   Year: PropTypes.string.isRequired,
   Poster: PropTypes.string.isRequired,
   handleClick: PropTypes.func.isRequired,
+  imdbID: PropTypes.string.isRequired,
   nominated: PropTypes.bool,
   isNominationList: PropTypes.bool,
 };
