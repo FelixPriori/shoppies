@@ -78,10 +78,10 @@ function App() {
       </header>
       <div className="separator" />
       <Row>
-        <Col>
+        <Col sm="6">
           <FormWrapper>
             <FormGroup>
-              <Label htmlFor="searchTerm">Search for movies to nominate</Label>
+              <Label htmlFor="searchTerm">Search</Label>
               <Input
                 type="text"
                 id="searchTerm"
@@ -94,7 +94,7 @@ function App() {
             </Button>
           </FormWrapper>
         </Col>
-        <Col className="rules">
+        <Col sm="6" className="instructions">
           <div className="card bg-light">
             <div className="card-body">
               <h3>Instructions</h3>
@@ -104,15 +104,15 @@ function App() {
                   Pick films that you think should be nominated for a Shoppy
                   Award
                 </li>
-                <li>You add up to 5 films to the nominations list</li>
+                <li>You can add up to 5 films to the nominations list</li>
               </ul>
             </div>
           </div>
         </Col>
       </Row>
-      <div className="separator" />
-      <section className="movie-lists">
-        <div className="search-results">
+      <div className="separator big-screen" />
+      <Row className="movie-lists">
+        <Col className="search-results">
           <h2>Search Results</h2>
           {status === 'pending' && <Spinner color="dark" />}
           {status === 'rejected' && (
@@ -158,8 +158,8 @@ function App() {
                 })}
             </MovieList>
           )}
-        </div>
-        <div className="nominated-list">
+        </Col>
+        <Col className="nominated-list">
           <h2>{`Your Nominations (${nominated?.length}/5)`}</h2>
           {nominated?.length === 5 && (
             <div className="card text-white bg-success">
@@ -179,8 +179,8 @@ function App() {
               />
             ))}
           </MovieList>
-        </div>
-      </section>
+        </Col>
+      </Row>
     </Wrapper>
   );
 }
@@ -195,7 +195,8 @@ const Wrapper = styled(Container)`
     height: 5rem;
   }
 
-  .rules {
+  .instructions {
+    padding: 1em;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -211,6 +212,10 @@ const Wrapper = styled(Container)`
     .nominated-list {
       flex: 1 1 50%;
       text-align: right;
+
+      @media (max-width: 544px) {
+        text-align: left;
+      }
     }
   }
 `;
@@ -224,6 +229,10 @@ const MovieList = styled.ul`
     props.nominated &&
     `
     justify-content: flex-end;
+    @media (max-width: 544px) {
+        text-align: left;
+        justify-content: flex-start;
+      }
   `}
 `;
 
