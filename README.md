@@ -1,6 +1,6 @@
 # The Shoppies
 
-Is a challenge project by Shoppify and attempted by Felix Rioux Sabourin.
+Is a challenge project by Shopify and attempted by Felix Rioux Sabourin.
 
 ## Challenge:
 
