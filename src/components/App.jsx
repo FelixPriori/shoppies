@@ -44,7 +44,7 @@ function App() {
   };
 
   useEffect(() => {
-    // waits 500ms before searching to prevent spamming the api
+    // waits 200ms before searching to prevent spamming the api
     const timeOutId = setTimeout(() => {
       searchMovie();
     }, 200);
