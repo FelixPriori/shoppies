@@ -31,6 +31,12 @@ h6 {
 .separator {
   width: 100%;
   border-bottom: 1.5px solid $gray;
+
+  &.big-screen {
+    @media (max-width: 577px) {
+      display: none;
+    }
+  }
 }
 
 // BUTTONS
