@@ -14,11 +14,24 @@ import {
 } from 'reactstrap';
 import Movie from './Movie';
 
+function setLocalNominations(initialState = []) {
+  const [nominated, setNominated] = useState(
+    () => JSON.parse(window.localStorage.getItem('nominated')) || initialState,
+  );
+
+  useEffect(() => {
+    const jsonNominated = JSON.stringify(nominated);
+    window.localStorage.setItem('nominated', jsonNominated);
+  }, [nominated]);
+
+  return [nominated, setNominated];
+}
+
 function App() {
-  const [{ movies, searchTerm, nominated, status }, setState] = useState({
+  const [nominated, setNominated] = setLocalNominations([]);
+  const [{ movies, searchTerm, status }, setState] = useState({
     movies: {},
     searchTerm: '',
-    nominated: [],
     status: 'idle',
   });
 
@@ -65,16 +78,12 @@ function App() {
     const exists = nominated.find((movie) => movie.imdbID === id);
     if (exists) {
       const nominatedMovies = nominated.filter((movie) => movie.imdbID !== id);
-      setState((prevState) => {
-        return { ...prevState, nominated: nominatedMovies };
-      });
+      setNominated(nominatedMovies);
     } else {
       if (nominated.length >= 5) return;
       else {
         const selected = movies.Search.find((movie) => movie.imdbID === id);
-        setState((prevState) => {
-          return { ...prevState, nominated: [...nominated, selected] };
-        });
+        setNominated([...nominated, selected]);
       }
     }
   };
