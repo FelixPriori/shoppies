@@ -15,7 +15,11 @@ We'd like a simple to use interface that makes it easy to:
 - View the list of films already nominated
 - Remove a nominee from the nomination list
 
-## Scripts
+## Instructions
+
+To see the project in production mode:
+
+https://felix-shoppies.netlify.app/
 
 to start the project in developmnent mode:
 
@@ -25,14 +29,14 @@ to start the project in developmnent mode:
 
 This project was developed using
 
-- [React.js](https://reactjs.org/);
-- [Scss](https://sass-lang.com/);
-- [Bootstrap](https://getbootstrap.com/)/[Reactstrap](https://reactstrap.github.io/);
-- [styled-components](https://styled-components.com/);
-- [Lodash](https://lodash.com/);
-- [Axios](https://github.com/axios/axios);
-- [Prettier](https://prettier.io/);
-- [Eslint](https://eslint.org/);
+- [React.js](https://reactjs.org/)
+- [Scss](https://sass-lang.com/)
+- [Bootstrap](https://getbootstrap.com/)/[Reactstrap](https://reactstrap.github.io/)
+- [styled-components](https://styled-components.com/)
+- [Lodash](https://lodash.com/)
+- [Axios](https://github.com/axios/axios)
+- [Prettier](https://prettier.io/)
+- [Eslint](https://eslint.org/)
 
 Icons from [ionicons](https://ionicons.com/).
 API is [OMDB](http://www.omdbapi.com/).
