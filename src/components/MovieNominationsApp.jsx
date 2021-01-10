@@ -13,10 +13,10 @@ import {
   Spinner,
 } from 'reactstrap';
 import Movie from './Movie';
-import { getMovies } from '../helpers/api-helpers';
+import { getMovies, isMovieNominated } from '../helpers/helpers';
 
 function MovieNominationsApp() {
-  const [nominated, setNominated] = useLocalNominations([]);
+  const [nominations, setNominations] = useLocalNominations([]);
   const [{ movies, searchTerm, status, error }, setState] = useState({
     movies: {},
     searchTerm: '',
@@ -43,7 +43,7 @@ function MovieNominationsApp() {
         } else {
           setState((prevState) => ({
             ...prevState,
-            error: data.Error,
+            error: data.Error || '',
             status: 'rejected',
           }));
         }
@@ -52,7 +52,7 @@ function MovieNominationsApp() {
         console.error(error);
         setState((prevState) => ({
           ...prevState,
-          error: error.message,
+          error: error.message || '',
           status: 'rejected',
         }));
       });
@@ -78,18 +78,18 @@ function MovieNominationsApp() {
     setState((prevState) => ({ ...prevState, searchTerm }));
 
   const onAddNomination = (movieId) => {
-    if (nominated.length >= 5) return;
+    if (nominations.length >= 5) return;
     else {
       const selected = movies.find((movie) => movie.movieId === movieId);
-      setNominated([...nominated, selected]);
+      setNominations([...nominations, selected]);
     }
   };
 
   const onRemoveNomination = (movieId) => {
-    const nominatedMovies = nominated.filter(
+    const nominatedMovies = nominations.filter(
       (movie) => movie.movieId !== movieId,
     );
-    setNominated(nominatedMovies);
+    setNominations(nominatedMovies);
   };
 
   return (
@@ -163,26 +163,21 @@ function MovieNominationsApp() {
           )}
           {status === 'resolved' && (
             <MovieList>
-              {movies.map((currentMovie) => {
-                const exists = nominated.find(
-                  (movie) => currentMovie.movieId === movie.movieId,
-                );
-                return (
-                  <Movie
-                    key={currentMovie.movieId}
-                    add={onAddNomination}
-                    remove={onRemoveNomination}
-                    nominated={Boolean(exists)}
-                    {...currentMovie}
-                  />
-                );
-              })}
+              {movies.map((currentMovie) => (
+                <Movie
+                  key={currentMovie.movieId}
+                  add={onAddNomination}
+                  remove={onRemoveNomination}
+                  nominated={isMovieNominated(nominations, currentMovie)}
+                  {...currentMovie}
+                />
+              ))}
             </MovieList>
           )}
         </Col>
         <Col className="nominated-list">
-          <h2>{`Your Nominations (${nominated?.length}/5)`}</h2>
-          {nominated?.length === 5 && (
+          <h2>{`Your Nominations (${nominations?.length}/5)`}</h2>
+          {nominations?.length === 5 && (
             <div className="card text-white bg-success">
               <div className="card-body">
                 <p className="card-text">Thank you for your nominations!</p>
@@ -190,7 +185,7 @@ function MovieNominationsApp() {
             </div>
           )}
           <MovieList nominated>
-            {nominated?.map((movie) => (
+            {nominations?.map((movie) => (
               <Movie
                 key={movie.movieId}
                 add={onAddNomination}
