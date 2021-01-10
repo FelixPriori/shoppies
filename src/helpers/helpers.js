@@ -5,3 +5,6 @@ export const getMovies = ({ Search }) =>
     movieId: movie.imdbID,
     year: movie.Year,
   }));
+
+export const isMovieNominated = (nominated, currentMovie) =>
+  Boolean(nominated.find((movie) => currentMovie.movieId === movie.movieId));
