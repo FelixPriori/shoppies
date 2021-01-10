@@ -6,5 +6,7 @@ export const getMovies = ({ Search }) =>
     year: movie.Year,
   }));
 
-export const isMovieNominated = (nominated, currentMovie) =>
-  Boolean(nominated.find((movie) => currentMovie.movieId === movie.movieId));
+export const isMovieNominated = (nominations, movie) =>
+  Boolean(
+    nominations.find((nomination) => movie.movieId === nomination.movieId),
+  );
