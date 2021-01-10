@@ -6,17 +6,16 @@ import { ReactComponent as Add } from '../assets/add-outline.svg';
 import { ReactComponent as Remove } from '../assets/close-outline.svg';
 import { ReactComponent as Sad } from '../assets/sad-outline.svg';
 
-function Movie(props) {
-  const {
-    Poster,
-    Title,
-    Year,
-    handleClick,
-    nominated,
-    isNominationList,
-    imdbID,
-  } = props;
-
+function Movie({
+  Poster,
+  Title,
+  Year,
+  add,
+  remove,
+  nominated,
+  isNominationList,
+  imdbID,
+}) {
   return (
     <Wrapper>
       <div className="movie-card">
@@ -32,12 +31,12 @@ function Movie(props) {
         <h4>{Year}</h4>
         <div className="button-container">
           {!isNominationList && (
-            <Button disabled={nominated} onClick={() => handleClick(imdbID)}>
+            <Button disabled={nominated} onClick={() => add(imdbID)}>
               <Add />
             </Button>
           )}
           {(nominated || isNominationList) && (
-            <Button onClick={() => handleClick(imdbID)}>
+            <Button onClick={() => remove(imdbID)}>
               <Remove />
             </Button>
           )}
@@ -56,7 +55,8 @@ Movie.propTypes = {
   Title: PropTypes.string.isRequired,
   Year: PropTypes.string.isRequired,
   Poster: PropTypes.string.isRequired,
-  handleClick: PropTypes.func.isRequired,
+  remove: PropTypes.func.isRequired,
+  add: PropTypes.func.isRequired,
   imdbID: PropTypes.string.isRequired,
   nominated: PropTypes.bool,
   isNominationList: PropTypes.bool,
