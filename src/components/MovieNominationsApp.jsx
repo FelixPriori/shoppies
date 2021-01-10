@@ -7,18 +7,18 @@ import {
   Input,
   FormGroup,
   Container,
-  Row,
   Spinner,
 } from 'reactstrap';
 import Movie from './Movie';
 import { getMovies, isMovieNominated } from '../helpers/helpers';
 import {
   Header,
+  Dashboard,
   Separator,
   Search,
   Instructions,
   SearchResults,
-  NominatedList,
+  NominationsList,
   MovieLists,
   MovieList,
 } from '../styles/styled-components';
@@ -103,23 +103,23 @@ function MovieNominationsApp() {
       <Header>
         <h1>The Shoppies</h1>
       </Header>
+
       <Separator />
-      <Row>
+
+      <Dashboard>
         <Search sm="6">
-          <div>
-            <FormGroup>
-              <Label htmlFor="searchTerm">Search</Label>
-              <Input
-                type="text"
-                id="searchTerm"
-                onChange={(e) => onSearchTermChange(e.target.value)}
-                value={searchTerm}
-              />
-            </FormGroup>
-            <Button type="button" onClick={onClearSearch} color="outline">
-              Clear Search
-            </Button>
-          </div>
+          <FormGroup>
+            <Label htmlFor="searchTerm">Search</Label>
+            <Input
+              type="text"
+              id="searchTerm"
+              onChange={(e) => onSearchTermChange(e.target.value)}
+              value={searchTerm}
+            />
+          </FormGroup>
+          <Button type="button" onClick={onClearSearch} color="outline">
+            Clear Search
+          </Button>
         </Search>
         <Instructions sm="6">
           <div className="card bg-light">
@@ -136,8 +136,10 @@ function MovieNominationsApp() {
             </div>
           </div>
         </Instructions>
-      </Row>
+      </Dashboard>
+
       <Separator big />
+
       <MovieLists>
         <SearchResults>
           <h2>Search Results</h2>
@@ -158,7 +160,7 @@ function MovieNominationsApp() {
               </div>
             </div>
           )}
-          {status === 'rejected' && (
+          {status === 'rejected' && !error && (
             <div className="card text-white bg-danger" role="alert">
               <div className="card-body">
                 <p className="card-text">
@@ -181,7 +183,8 @@ function MovieNominationsApp() {
             </MovieList>
           )}
         </SearchResults>
-        <NominatedList>
+
+        <NominationsList>
           <h2>{`Your Nominations (${nominations?.length}/5)`}</h2>
           {nominations?.length === 5 && (
             <div className="card text-white bg-success">
@@ -204,7 +207,7 @@ function MovieNominationsApp() {
               ))}
             </MovieList>
           )}
-        </NominatedList>
+        </NominationsList>
       </MovieLists>
     </Container>
   );
