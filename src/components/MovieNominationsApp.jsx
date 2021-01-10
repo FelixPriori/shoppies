@@ -15,7 +15,7 @@ import {
 } from 'reactstrap';
 import Movie from './Movie';
 
-function App() {
+function MovieNominationsApp() {
   const [nominated, setNominated] = useLocalNominations([]);
   const [{ movies, searchTerm, status }, setState] = useState({
     movies: {},
@@ -51,24 +51,23 @@ function App() {
     return () => clearTimeout(timeOutId);
   }, [searchTerm]);
 
-  const handleClear = () =>
+  const onClearSearch = () =>
     setState((prevState) => ({ ...prevState, searchTerm: '', status: 'idle' }));
 
   const onSearchTermChange = (searchTerm) =>
     setState((prevState) => ({ ...prevState, searchTerm }));
 
-  const handleClick = (id) => {
-    const exists = nominated.find((movie) => movie.imdbID === id);
-    if (exists) {
-      const nominatedMovies = nominated.filter((movie) => movie.imdbID !== id);
-      setNominated(nominatedMovies);
-    } else {
-      if (nominated.length >= 5) return;
-      else {
-        const selected = movies.Search.find((movie) => movie.imdbID === id);
-        setNominated([...nominated, selected]);
-      }
+  const onAddNomination = (id) => {
+    if (nominated.length >= 5) return;
+    else {
+      const selected = movies.Search.find((movie) => movie.imdbID === id);
+      setNominated([...nominated, selected]);
     }
+  };
+
+  const onRemoveNomination = (id) => {
+    const nominatedMovies = nominated.filter((movie) => movie.imdbID !== id);
+    setNominated(nominatedMovies);
   };
 
   return (
@@ -89,7 +88,7 @@ function App() {
                 value={searchTerm}
               />
             </FormGroup>
-            <Button type="button" onClick={handleClear} color="outline">
+            <Button type="button" onClick={onClearSearch} color="outline">
               Clear Search
             </Button>
           </FormWrapper>
@@ -150,7 +149,8 @@ function App() {
                   return (
                     <Movie
                       key={currentMovie.imdbID}
-                      handleClick={handleClick}
+                      add={onAddNomination}
+                      remove={onRemoveNomination}
                       nominated={Boolean(exists)}
                       {...currentMovie}
                     />
@@ -172,7 +172,8 @@ function App() {
             {nominated?.map((movie) => (
               <Movie
                 key={movie.imdbID}
-                handleClick={handleClick}
+                add={onAddNomination}
+                remove={onRemoveNomination}
                 nominated
                 isNominationList
                 {...movie}
@@ -185,7 +186,7 @@ function App() {
   );
 }
 
-export default App;
+export default MovieNominationsApp;
 
 const Wrapper = styled(Container)`
   .header {
