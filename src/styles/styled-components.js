@@ -8,6 +8,8 @@ export const Header = styled.header`
   height: 5rem;
 `;
 
+export const Dashboard = styled(Row)``;
+
 export const Separator = styled.div`
   width: 100%;
   border-bottom: 1.5px solid #adb5bd;
@@ -22,8 +24,9 @@ export const Separator = styled.div`
 `;
 
 export const Search = styled(Col)`
-  & > div {
-    padding: 3em 0;
+  padding: 3em 1em;
+  & > div,
+  & > button {
     max-width: 350px;
   }
 `;
@@ -48,7 +51,7 @@ export const SearchResults = styled(Col)`
   flex: 1 1 50%;
 `;
 
-export const NominatedList = styled(Col)`
+export const NominationsList = styled(Col)`
   flex: 1 1 50%;
   text-align: right;
 
