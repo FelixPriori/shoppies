@@ -7,37 +7,37 @@ import { ReactComponent as Remove } from '../assets/close-outline.svg';
 import { ReactComponent as Sad } from '../assets/sad-outline.svg';
 
 function Movie({
-  Poster,
-  Title,
-  Year,
+  poster,
+  title,
+  year,
   add,
   remove,
   nominated,
   isNominationList,
-  imdbID,
+  movieId,
 }) {
   return (
     <Wrapper>
       <div className="movie-card">
-        {Poster === 'N/A' ? (
+        {poster === 'N/A' ? (
           <div className="unavailable">
             <Sad />
             <p>Image unavailable</p>
           </div>
         ) : (
-          <img src={Poster} alt={Title} />
+          <img src={poster} alt={title} />
         )}
-        <h3>{Title}</h3>
-        <h4>{Year}</h4>
+        <h3>{title}</h3>
+        <h4>{year}</h4>
         <div className="button-container">
           {!isNominationList && (
-            <Button disabled={nominated} onClick={() => add(imdbID)}>
+            <Button disabled={nominated} onClick={() => add(movieId)}>
               <Add />
             </Button>
           )}
           {(nominated || isNominationList) && (
             <>
-              <Button onClick={() => remove(imdbID)}>
+              <Button onClick={() => remove(movieId)}>
                 <Remove />
               </Button>
               <div className="trophy">
@@ -52,12 +52,12 @@ function Movie({
 }
 
 Movie.propTypes = {
-  Title: PropTypes.string.isRequired,
-  Year: PropTypes.string.isRequired,
-  Poster: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  year: PropTypes.string.isRequired,
+  poster: PropTypes.string.isRequired,
   remove: PropTypes.func.isRequired,
   add: PropTypes.func.isRequired,
-  imdbID: PropTypes.string.isRequired,
+  movieId: PropTypes.string.isRequired,
   nominated: PropTypes.bool,
   isNominationList: PropTypes.bool,
 };
