@@ -36,14 +36,14 @@ function Movie({
             </Button>
           )}
           {(nominated || isNominationList) && (
-            <Button onClick={() => remove(imdbID)}>
-              <Remove />
-            </Button>
-          )}
-          {(nominated || isNominationList) && (
-            <div className="trophy">
-              <Trophy />
-            </div>
+            <>
+              <Button onClick={() => remove(imdbID)}>
+                <Remove />
+              </Button>
+              <div className="trophy">
+                <Trophy />
+              </div>
+            </>
           )}
         </div>
       </div>
