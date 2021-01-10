@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useLocalNominations } from '../hooks/useLocalNominations';
 import styled from 'styled-components/macro';
 import axios from 'axios';
-import { isEmpty } from 'lodash';
 import {
   Button,
   Label,
@@ -14,13 +13,15 @@ import {
   Spinner,
 } from 'reactstrap';
 import Movie from './Movie';
+import { getMovies } from '../helpers/api-helpers';
 
 function MovieNominationsApp() {
   const [nominated, setNominated] = useLocalNominations([]);
-  const [{ movies, searchTerm, status }, setState] = useState({
+  const [{ movies, searchTerm, status, error }, setState] = useState({
     movies: {},
     searchTerm: '',
     status: 'idle',
+    error: '',
   });
 
   const searchMovie = () => {
@@ -30,16 +31,30 @@ function MovieNominationsApp() {
     const url = `https://www.omdbapi.com/?apikey=${REACT_APP_OMDB}&type=movie&s=${searchTerm}`;
     axios
       .get(url)
-      .then(({ data }) =>
-        setState((prevState) => ({
-          ...prevState,
-          movies: data,
-          status: 'resolved',
-        })),
-      )
+      .then(({ data }) => {
+        if (data.Response === 'True') {
+          const movies = getMovies(data);
+          setState((prevState) => ({
+            ...prevState,
+            movies,
+            status: 'resolved',
+            error: '',
+          }));
+        } else {
+          setState((prevState) => ({
+            ...prevState,
+            error: data.Error,
+            status: 'rejected',
+          }));
+        }
+      })
       .catch((error) => {
         console.error(error);
-        setState((prevState) => ({ ...prevState, status: 'rejected' }));
+        setState((prevState) => ({
+          ...prevState,
+          error: error.message,
+          status: 'rejected',
+        }));
       });
   };
 
@@ -52,21 +67,28 @@ function MovieNominationsApp() {
   }, [searchTerm]);
 
   const onClearSearch = () =>
-    setState((prevState) => ({ ...prevState, searchTerm: '', status: 'idle' }));
+    setState((prevState) => ({
+      ...prevState,
+      searchTerm: '',
+      status: 'idle',
+      error: '',
+    }));
 
   const onSearchTermChange = (searchTerm) =>
     setState((prevState) => ({ ...prevState, searchTerm }));
 
-  const onAddNomination = (id) => {
+  const onAddNomination = (movieId) => {
     if (nominated.length >= 5) return;
     else {
-      const selected = movies.Search.find((movie) => movie.imdbID === id);
+      const selected = movies.find((movie) => movie.movieId === movieId);
       setNominated([...nominated, selected]);
     }
   };
 
-  const onRemoveNomination = (id) => {
-    const nominatedMovies = nominated.filter((movie) => movie.imdbID !== id);
+  const onRemoveNomination = (movieId) => {
+    const nominatedMovies = nominated.filter(
+      (movie) => movie.movieId !== movieId,
+    );
     setNominated(nominatedMovies);
   };
 
@@ -114,15 +136,6 @@ function MovieNominationsApp() {
         <Col className="search-results">
           <h2>Search Results</h2>
           {status === 'pending' && <Spinner color="dark" />}
-          {status === 'rejected' && (
-            <div className="card text-white bg-danger" role="alert">
-              <div className="card-body">
-                <p className="card-text">
-                  There was a problem with your search
-                </p>
-              </div>
-            </div>
-          )}
           {status === 'idle' && (
             <div className="card bg-light">
               <div className="card-body">
@@ -132,30 +145,38 @@ function MovieNominationsApp() {
               </div>
             </div>
           )}
-          {status === 'resolved' && movies.Error && (
+          {status === 'rejected' && error && (
             <div className="card text-white bg-danger" role="alert">
               <div className="card-body">
-                <p className="card-text">No movies matching your search</p>
+                <p className="card-text">{error}</p>
+              </div>
+            </div>
+          )}
+          {status === 'rejected' && (
+            <div className="card text-white bg-danger" role="alert">
+              <div className="card-body">
+                <p className="card-text">
+                  There was a problem with your search
+                </p>
               </div>
             </div>
           )}
           {status === 'resolved' && (
             <MovieList>
-              {!isEmpty(movies) &&
-                movies.Search?.map((currentMovie) => {
-                  const exists = nominated.find(
-                    (movie) => currentMovie.imdbID === movie.imdbID,
-                  );
-                  return (
-                    <Movie
-                      key={currentMovie.imdbID}
-                      add={onAddNomination}
-                      remove={onRemoveNomination}
-                      nominated={Boolean(exists)}
-                      {...currentMovie}
-                    />
-                  );
-                })}
+              {movies.map((currentMovie) => {
+                const exists = nominated.find(
+                  (movie) => currentMovie.movieId === movie.movieId,
+                );
+                return (
+                  <Movie
+                    key={currentMovie.movieId}
+                    add={onAddNomination}
+                    remove={onRemoveNomination}
+                    nominated={Boolean(exists)}
+                    {...currentMovie}
+                  />
+                );
+              })}
             </MovieList>
           )}
         </Col>
@@ -171,7 +192,7 @@ function MovieNominationsApp() {
           <MovieList nominated>
             {nominated?.map((movie) => (
               <Movie
-                key={movie.imdbID}
+                key={movie.movieId}
                 add={onAddNomination}
                 remove={onRemoveNomination}
                 nominated
