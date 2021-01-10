@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 
 export function useLocalNominations(initialState = []) {
-  const [nominated, setNominated] = useState(
+  const [nominations, setNominations] = useState(
     () => JSON.parse(window.localStorage.getItem('nominated')) || initialState,
   );
 
   useEffect(() => {
-    const jsonNominated = JSON.stringify(nominated);
+    const jsonNominated = JSON.stringify(nominations);
     window.localStorage.setItem('nominated', jsonNominated);
-  }, [nominated]);
+  }, [nominations]);
 
-  return [nominated, setNominated];
+  return [nominations, setNominations];
 }
