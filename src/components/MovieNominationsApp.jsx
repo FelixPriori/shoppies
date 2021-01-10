@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useLocalNominations } from '../hooks/useLocalNominations';
-import styled from 'styled-components/macro';
 import axios from 'axios';
 import {
   Button,
@@ -9,11 +8,20 @@ import {
   FormGroup,
   Container,
   Row,
-  Col,
   Spinner,
 } from 'reactstrap';
 import Movie from './Movie';
 import { getMovies, isMovieNominated } from '../helpers/helpers';
+import {
+  Header,
+  Separator,
+  Search,
+  Instructions,
+  SearchResults,
+  NominatedList,
+  MovieLists,
+  MovieList,
+} from '../styles/styled-components';
 
 function MovieNominationsApp() {
   const [nominations, setNominations] = useLocalNominations([]);
@@ -97,7 +105,7 @@ function MovieNominationsApp() {
       </Header>
       <Separator />
       <Row>
-        <FormWrapper sm="6">
+        <Search sm="6">
           <div>
             <FormGroup>
               <Label htmlFor="searchTerm">Search</Label>
@@ -112,7 +120,7 @@ function MovieNominationsApp() {
               Clear Search
             </Button>
           </div>
-        </FormWrapper>
+        </Search>
         <Instructions sm="6">
           <div className="card bg-light">
             <div className="card-body">
@@ -161,13 +169,13 @@ function MovieNominationsApp() {
           )}
           {status === 'resolved' && (
             <MovieList>
-              {movies.map((currentMovie) => (
+              {movies.map((movie) => (
                 <Movie
-                  key={currentMovie.movieId}
-                  add={onAddNomination}
-                  remove={onRemoveNomination}
-                  nominated={isMovieNominated(nominations, currentMovie)}
-                  {...currentMovie}
+                  key={movie.movieId}
+                  onAdd={onAddNomination}
+                  onRemove={onRemoveNomination}
+                  nominated={isMovieNominated(nominations, movie)}
+                  {...movie}
                 />
               ))}
             </MovieList>
@@ -187,8 +195,8 @@ function MovieNominationsApp() {
               {nominations?.map((movie) => (
                 <Movie
                   key={movie.movieId}
-                  add={onAddNomination}
-                  remove={onRemoveNomination}
+                  onAdd={onAddNomination}
+                  onRemove={onRemoveNomination}
                   nominated
                   isNominationList
                   {...movie}
@@ -203,75 +211,3 @@ function MovieNominationsApp() {
 }
 
 export default MovieNominationsApp;
-
-const Header = styled.header`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 5rem;
-`;
-
-const Separator = styled.div`
-  width: 100%;
-  border-bottom: 1.5px solid #adb5bd;
-
-  ${(props) =>
-    props.big &&
-    `
-    @media (max-width: 577px) {
-      display: none;
-    }
-  `}
-`;
-
-const FormWrapper = styled(Col)`
-  & > div {
-    padding: 3em 0;
-    max-width: 350px;
-  }
-`;
-
-const Instructions = styled(Col)`
-  padding: 1em;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const MovieLists = styled(Row)`
-  display: flex;
-  padding: 3em 0;
-
-  .card {
-    margin: 2em 0;
-  }
-`;
-
-const SearchResults = styled(Col)`
-  flex: 1 1 50%;
-`;
-
-const NominatedList = styled(Col)`
-  flex: 1 1 50%;
-  text-align: right;
-
-  @media (max-width: 544px) {
-    text-align: left;
-  }
-`;
-
-const MovieList = styled.ul`
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-
-  ${(props) =>
-    props.nominated &&
-    `
-    justify-content: flex-end;
-    @media (max-width: 544px) {
-      text-align: left;
-      justify-content: flex-start;
-    }
-  `}
-`;
