@@ -79,10 +79,8 @@ function MovieNominationsApp() {
 
   const onAddNomination = (movieId) => {
     if (nominations.length >= 5) return;
-    else {
-      const selected = movies.find((movie) => movie.movieId === movieId);
-      setNominations([...nominations, selected]);
-    }
+    const selected = movies.find((movie) => movie.movieId === movieId);
+    setNominations([...nominations, selected]);
   };
 
   const onRemoveNomination = (movieId) => {
@@ -93,14 +91,14 @@ function MovieNominationsApp() {
   };
 
   return (
-    <Wrapper>
-      <header className="header">
+    <Container>
+      <Header>
         <h1>The Shoppies</h1>
-      </header>
-      <div className="separator" />
+      </Header>
+      <Separator />
       <Row>
-        <Col sm="6">
-          <FormWrapper>
+        <FormWrapper sm="6">
+          <div>
             <FormGroup>
               <Label htmlFor="searchTerm">Search</Label>
               <Input
@@ -113,9 +111,9 @@ function MovieNominationsApp() {
             <Button type="button" onClick={onClearSearch} color="outline">
               Clear Search
             </Button>
-          </FormWrapper>
-        </Col>
-        <Col sm="6" className="instructions">
+          </div>
+        </FormWrapper>
+        <Instructions sm="6">
           <div className="card bg-light">
             <div className="card-body">
               <h3>Instructions</h3>
@@ -129,11 +127,11 @@ function MovieNominationsApp() {
               </ul>
             </div>
           </div>
-        </Col>
+        </Instructions>
       </Row>
-      <div className="separator big-screen" />
-      <Row className="movie-lists">
-        <Col className="search-results">
+      <Separator big />
+      <MovieLists>
+        <SearchResults>
           <h2>Search Results</h2>
           {status === 'pending' && <Spinner color="dark" />}
           {status === 'idle' && (
@@ -174,8 +172,8 @@ function MovieNominationsApp() {
               ))}
             </MovieList>
           )}
-        </Col>
-        <Col className="nominated-list">
+        </SearchResults>
+        <NominatedList>
           <h2>{`Your Nominations (${nominations?.length}/5)`}</h2>
           {nominations?.length === 5 && (
             <div className="card text-white bg-success">
@@ -184,60 +182,81 @@ function MovieNominationsApp() {
               </div>
             </div>
           )}
-          <MovieList nominated>
-            {nominations?.map((movie) => (
-              <Movie
-                key={movie.movieId}
-                add={onAddNomination}
-                remove={onRemoveNomination}
-                nominated
-                isNominationList
-                {...movie}
-              />
-            ))}
-          </MovieList>
-        </Col>
-      </Row>
-    </Wrapper>
+          {nominations.length > 0 && (
+            <MovieList nominated>
+              {nominations?.map((movie) => (
+                <Movie
+                  key={movie.movieId}
+                  add={onAddNomination}
+                  remove={onRemoveNomination}
+                  nominated
+                  isNominationList
+                  {...movie}
+                />
+              ))}
+            </MovieList>
+          )}
+        </NominatedList>
+      </MovieLists>
+    </Container>
   );
 }
 
 export default MovieNominationsApp;
 
-const Wrapper = styled(Container)`
-  .header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 5rem;
-  }
+const Header = styled.header`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 5rem;
+`;
 
-  .instructions {
-    padding: 1em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+const Separator = styled.div`
+  width: 100%;
+  border-bottom: 1.5px solid #adb5bd;
 
-  .movie-lists {
-    display: flex;
+  ${(props) =>
+    props.big &&
+    `
+    @media (max-width: 577px) {
+      display: none;
+    }
+  `}
+`;
+
+const FormWrapper = styled(Col)`
+  & > div {
     padding: 3em 0;
+    max-width: 350px;
+  }
+`;
 
-    .card {
-      margin: 2em 0;
-    }
+const Instructions = styled(Col)`
+  padding: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
-    .search-results {
-      flex: 1 1 50%;
-    }
-    .nominated-list {
-      flex: 1 1 50%;
-      text-align: right;
+const MovieLists = styled(Row)`
+  display: flex;
+  padding: 3em 0;
 
-      @media (max-width: 544px) {
-        text-align: left;
-      }
-    }
+  .card {
+    margin: 2em 0;
+  }
+`;
+
+const SearchResults = styled(Col)`
+  flex: 1 1 50%;
+`;
+
+const NominatedList = styled(Col)`
+  flex: 1 1 50%;
+  text-align: right;
+
+  @media (max-width: 544px) {
+    text-align: left;
   }
 `;
 
@@ -251,13 +270,8 @@ const MovieList = styled.ul`
     `
     justify-content: flex-end;
     @media (max-width: 544px) {
-        text-align: left;
-        justify-content: flex-start;
-      }
+      text-align: left;
+      justify-content: flex-start;
+    }
   `}
-`;
-
-const FormWrapper = styled.section`
-  padding: 3em 0;
-  max-width: 350px;
 `;
