@@ -145,7 +145,7 @@ function MovieNominationsApp() {
           <h2>Search Results</h2>
           {status === 'pending' && <Spinner color="dark" />}
           {status === 'idle' && (
-            <div className="card bg-light">
+            <div className="card bg-light" role="message">
               <div className="card-body">
                 <p className="card-text">
                   Use the search bar to find a movie to nominate
@@ -193,9 +193,9 @@ function MovieNominationsApp() {
               </div>
             </div>
           )}
-          {nominations.length > 0 && (
+          {nominations?.length > 0 && (
             <MovieList nominated>
-              {nominations?.map((movie) => (
+              {nominations.map((movie) => (
                 <Movie
                   key={movie.movieId}
                   onAdd={onAddNomination}
