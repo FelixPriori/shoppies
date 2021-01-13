@@ -67,8 +67,7 @@ afterEach(() => server.resetHandlers());
 test('Searching should display search results', async () => {
   render(<MovieNominationsApp />);
 
-  const prompt = screen.getByRole('message');
-  expect(prompt.textContent).toMatchInlineSnapshot(
+  expect(screen.getByRole('alert').textContent).toMatchInlineSnapshot(
     '"Use the search bar to find a movie to nominate"',
   );
 
@@ -76,7 +75,7 @@ test('Searching should display search results', async () => {
   userEvent.type(input, 'batman');
   expect(input).toHaveValue('batman');
 
-  await waitForElementToBeRemoved(() => screen.getByRole('message'));
+  await waitForElementToBeRemoved(() => screen.getByRole('alert'));
   await waitForElementToBeRemoved(() => screen.getByRole('status'));
 
   const movieCard = screen.getByText(/batman begins/i);
@@ -97,7 +96,7 @@ test('if "Response: false", the error message is displayed', async () => {
 
   render(<MovieNominationsApp />);
 
-  const prompt = screen.getByRole('message');
+  const prompt = screen.getByRole('alert');
   expect(prompt.textContent).toMatchInlineSnapshot(
     '"Use the search bar to find a movie to nominate"',
   );
@@ -106,7 +105,7 @@ test('if "Response: false", the error message is displayed', async () => {
   userEvent.type(input, 'a');
   expect(input).toHaveValue('a');
 
-  await waitForElementToBeRemoved(() => screen.getByRole('message'));
+  await waitForElementToBeRemoved(() => screen.getByRole('alert'));
   await waitForElementToBeRemoved(() => screen.getByRole('status'));
 
   expect(screen.getByRole('alert')).toHaveTextContent(Error);
@@ -124,7 +123,7 @@ test('if there is an unknown error, the error message is displayed', async () =>
 
   render(<MovieNominationsApp />);
 
-  const prompt = screen.getByRole('message');
+  const prompt = screen.getByRole('alert');
   expect(prompt.textContent).toMatchInlineSnapshot(
     '"Use the search bar to find a movie to nominate"',
   );
@@ -133,7 +132,7 @@ test('if there is an unknown error, the error message is displayed', async () =>
   userEvent.type(input, 'a');
   expect(input).toHaveValue('a');
 
-  await waitForElementToBeRemoved(() => screen.getByRole('message'));
+  await waitForElementToBeRemoved(() => screen.getByRole('alert'));
   await waitForElementToBeRemoved(() => screen.getByRole('status'));
 
   expect(screen.getByRole('alert').textContent).toMatchInlineSnapshot(
