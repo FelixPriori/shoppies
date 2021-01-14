@@ -8,6 +8,10 @@ import {
   FormGroup,
   Container,
   Spinner,
+  Card,
+  CardBody,
+  CardTitle,
+  CardText,
 } from 'reactstrap';
 import Movie from './Movie';
 import { getMovies, isMovieNominated } from '../helpers/helpers';
@@ -21,6 +25,7 @@ import {
   NominationsList,
   MovieLists,
   MovieList,
+  Footer,
 } from '../styles/styled-components';
 import { apiUrl } from '../externalMovieApi';
 
@@ -56,14 +61,13 @@ function MovieNominationsApp() {
           }));
         }
       })
-      .catch((error) => {
-        console.error(error);
+      .catch((error) =>
         setState((prevState) => ({
           ...prevState,
           error: error.message || '',
           status: 'rejected',
-        }));
-      });
+        })),
+      );
   };
 
   useEffect(() => {
@@ -122,9 +126,9 @@ function MovieNominationsApp() {
           </Button>
         </Search>
         <Instructions sm="6">
-          <div className="card bg-light">
-            <div className="card-body">
-              <h3>Instructions</h3>
+          <Card>
+            <CardBody>
+              <CardTitle tag="h2">Instructions</CardTitle>
               <ul>
                 <li>Use the search bar to search for your favourite films</li>
                 <li>
@@ -133,8 +137,8 @@ function MovieNominationsApp() {
                 </li>
                 <li>You can add up to 5 films to the nominations list</li>
               </ul>
-            </div>
-          </div>
+            </CardBody>
+          </Card>
         </Instructions>
       </Dashboard>
 
@@ -145,29 +149,27 @@ function MovieNominationsApp() {
           <h2>Search Results</h2>
           {status === 'pending' && <Spinner color="dark" />}
           {status === 'idle' && (
-            <div className="card bg-light" role="alert">
-              <div className="card-body">
-                <p className="card-text">
+            <Card role="alert">
+              <CardBody>
+                <CardText>
                   Use the search bar to find a movie to nominate
-                </p>
-              </div>
-            </div>
+                </CardText>
+              </CardBody>
+            </Card>
           )}
           {status === 'rejected' && error && (
-            <div className="card text-white bg-danger" role="alert">
-              <div className="card-body">
-                <p className="card-text">{error}</p>
-              </div>
-            </div>
+            <Card inverse color="danger" role="alert">
+              <CardBody>
+                <CardText>{error}</CardText>
+              </CardBody>
+            </Card>
           )}
           {status === 'rejected' && !error && (
-            <div className="card text-white bg-danger" role="alert">
-              <div className="card-body">
-                <p className="card-text">
-                  There was a problem with your search
-                </p>
-              </div>
-            </div>
+            <Card inverse color="danger" role="alert">
+              <CardBody>
+                <CardText>There was a problem with your search</CardText>
+              </CardBody>
+            </Card>
           )}
           {status === 'resolved' && (
             <MovieList>
@@ -187,11 +189,11 @@ function MovieNominationsApp() {
         <NominationsList>
           <h2>{`Your Nominations (${nominations?.length}/5)`}</h2>
           {nominations?.length === 5 && (
-            <div className="card text-white bg-success">
-              <div className="card-body">
-                <p className="card-text">Thank you for your nominations!</p>
-              </div>
-            </div>
+            <Card inverse color="success">
+              <CardBody>
+                <CardText>Thank you for your nominations!</CardText>
+              </CardBody>
+            </Card>
           )}
           {nominations?.length > 0 && (
             <MovieList nominated>
@@ -209,6 +211,12 @@ function MovieNominationsApp() {
           )}
         </NominationsList>
       </MovieLists>
+
+      <Separator />
+
+      <Footer>
+        <p>&#169; Felix Rioux Sabourin 2021</p>
+      </Footer>
     </Container>
   );
 }
