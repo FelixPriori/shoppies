@@ -22,6 +22,7 @@ import {
   MovieLists,
   MovieList,
 } from '../styles/styled-components';
+import { apiUrl } from '../externalMovieApi';
 
 function MovieNominationsApp() {
   const [nominations, setNominations] = useLocalNominations([]);
@@ -35,8 +36,7 @@ function MovieNominationsApp() {
   const searchMovie = () => {
     if (searchTerm === '') return;
     setState((prevState) => ({ ...prevState, status: 'pending' }));
-    const { REACT_APP_OMDB } = process.env;
-    const url = `https://www.omdbapi.com/?apikey=${REACT_APP_OMDB}&type=movie&s=${searchTerm}`;
+    const url = `${apiUrl}&s=${searchTerm}`;
     axios
       .get(url)
       .then(({ data }) => {
@@ -138,7 +138,7 @@ function MovieNominationsApp() {
         </Instructions>
       </Dashboard>
 
-      <Separator big />
+      <Separator />
 
       <MovieLists>
         <SearchResults>
