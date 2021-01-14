@@ -20,9 +20,12 @@ Is a challenge project by Shopify and attempted by Felix Rioux Sabourin.
 
 ## Instructions
 
-### To see the project in production mode:
+### Setup
 
-https://felix-shoppies.netlify.app/
+1. Fork and/or clone project
+2. Get a free api key for the [OMDb api](http://www.omdbapi.com/apikey.aspx)
+3. Copy `.env.example` to root of project and rename to `.env`
+4. Assign your api key to the variable `REACT_APP_OMDB` in your `.env` file
 
 ### To start the project in developmnent mode:
 
@@ -35,6 +38,10 @@ yarn && yarn start
 ```sh
 yarn test
 ```
+
+### To see the project in production mode:
+
+https://felix-shoppies.netlify.app/
 
 ## Used in this project
 
