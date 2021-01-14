@@ -43,6 +43,17 @@ yarn test
 
 https://felix-shoppies.netlify.app/
 
+## Extra features
+
+- The nomination list is saved and retrieved from local storage using the custom hook `useLocalNominations`
+- Messages are displayed to help guide the user through nomination process
+- A counter is displayed above nomination list to help users keep track of how many movies they have already nominated
+- In addition to the movie's year and title, the poster is also displayed to the user. In case the poster is unavailable, a fallback image is rendered
+- A "Clear Search" button is provided to quickly reset the search terms and clear the search results
+- API is called 200ms after the user has finished typing to prevent spamming the endpoint
+- API and helper functions are tested in the `src/__tests__/` directory
+- The app is responsive and functional on any device size
+
 ## Used in this project
 
 ### Stack
@@ -68,4 +79,4 @@ https://felix-shoppies.netlify.app/
 
 ### API
 
-- [OMDB](http://www.omdbapi.com/)
+- [OMDb](http://www.omdbapi.com/)
