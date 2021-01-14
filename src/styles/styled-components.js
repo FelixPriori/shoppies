@@ -6,14 +6,15 @@ export const Header = styled.header`
   justify-content: center;
   align-items: center;
   height: 5rem;
+
+  h1 {
+    margin: 0;
+  }
 `;
 
 export const Dashboard = styled(Row)``;
 
-export const Separator = styled.div`
-  width: 100%;
-  border-bottom: 1.5px solid #adb5bd;
-`;
+export const Separator = styled.hr``;
 
 export const Search = styled(Col)`
   padding: 3em 1em;
@@ -119,9 +120,9 @@ export const ButtonContainer = styled.div`
 
   button {
     background-color: white;
-    border: 1.5px solid black;
+    border: 1.5px solid #333;
     svg {
-      color: black;
+      color: #333;
     }
   }
 `;
@@ -140,4 +141,9 @@ export const TrophyContainer = styled.div`
     width: 24px;
     color: gold;
   }
+`;
+
+export const Footer = styled.footer`
+  display: flex;
+  justify-content: center;
 `;
