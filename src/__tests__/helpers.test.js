@@ -1,5 +1,5 @@
-import { getMovies, isMovieNominated } from '../helpers/helpers';
 import faker from 'faker';
+import { getMovies, isMovieNominated } from '../helpers/helpers';
 
 const buildMovie = () => ({
   title: faker.lorem.sentence(),
@@ -15,7 +15,7 @@ const buildSearchData = () => ({
   Year: faker.random.number(),
 });
 
-test('getMovies should modify the keys of the objects in the Search array', () => {
+test('getMovies should take in the Search array and return a new array of objects using that data', () => {
   const searchData = buildSearchData();
   const data = {
     Search: [searchData],
