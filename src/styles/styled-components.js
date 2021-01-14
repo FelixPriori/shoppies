@@ -13,14 +13,6 @@ export const Dashboard = styled(Row)``;
 export const Separator = styled.div`
   width: 100%;
   border-bottom: 1.5px solid #adb5bd;
-
-  ${(props) =>
-    props.big &&
-    `
-    @media (max-width: 577px) {
-      display: none;
-    }
-  `}
 `;
 
 export const Search = styled(Col)`
@@ -53,27 +45,12 @@ export const SearchResults = styled(Col)`
 
 export const NominationsList = styled(Col)`
   flex: 1 1 50%;
-  text-align: right;
-
-  @media (max-width: 544px) {
-    text-align: left;
-  }
 `;
 
 export const MovieList = styled.ul`
   padding: 0;
   display: flex;
   flex-wrap: wrap;
-
-  ${(props) =>
-    props.nominated &&
-    `
-    justify-content: flex-end;
-    @media (max-width: 544px) {
-      text-align: left;
-      justify-content: flex-start;
-    }
-  `}
 `;
 
 export const MovieWrapper = styled.li`
