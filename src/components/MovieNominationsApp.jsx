@@ -16,7 +16,7 @@ import Movie from './Movie';
 import { getMovies, isMovieNominated } from '../helpers/helpers';
 import {
   Header,
-  Dashboard,
+  SearchPanel,
   Separator,
   Search,
   Instructions,
@@ -44,9 +44,8 @@ function MovieNominationsApp() {
     axios
       .get(url)
       .then(({ data }) => {
-        const { Response, Search, Error } = data;
-        if (Response === 'True') {
-          const movies = getMovies(Search);
+        if (data.Response === 'True') {
+          const movies = getMovies(data.Search);
           setState((prevState) => ({
             ...prevState,
             movies,
@@ -56,7 +55,7 @@ function MovieNominationsApp() {
         } else {
           setState((prevState) => ({
             ...prevState,
-            error: Error || '',
+            error: data.Error || '',
             status: 'rejected',
           }));
         }
@@ -110,8 +109,8 @@ function MovieNominationsApp() {
 
       <Separator />
 
-      <Dashboard>
-        <Instructions sm={{ size: 6, order: 2 }}>
+      <SearchPanel>
+        <Instructions md={{ size: 6, order: 2 }}>
           <Card>
             <CardBody>
               <CardTitle tag="h2">Instructions</CardTitle>
@@ -126,7 +125,7 @@ function MovieNominationsApp() {
             </CardBody>
           </Card>
         </Instructions>
-        <Search sm={{ size: 6, order: 1 }}>
+        <Search md={{ size: 6, order: 1 }}>
           <Card>
             <CardBody>
               <FormGroup>
@@ -147,7 +146,7 @@ function MovieNominationsApp() {
             </CardBody>
           </Card>
         </Search>
-      </Dashboard>
+      </SearchPanel>
 
       <Separator />
 
