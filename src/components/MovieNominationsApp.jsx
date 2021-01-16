@@ -71,9 +71,7 @@ function MovieNominationsApp() {
 
   useEffect(() => {
     // waits 200ms before searching to prevent spamming the api
-    const timeOutId = setTimeout(() => {
-      searchMovie();
-    }, 200);
+    const timeOutId = setTimeout(() => searchMovie(), 200);
     return () => clearTimeout(timeOutId);
   }, [searchTerm]);
 
