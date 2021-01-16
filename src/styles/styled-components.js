@@ -12,7 +12,7 @@ export const Header = styled.header`
   }
 `;
 
-export const Dashboard = styled(Row)``;
+export const SearchPanel = styled(Row)``;
 
 export const Separator = styled.hr``;
 
@@ -118,7 +118,7 @@ export const FallbackPoster = styled.div`
   }
 `;
 
-export const ButtonContainer = styled.div`
+export const ButtonsContainer = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
