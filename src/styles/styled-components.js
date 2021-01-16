@@ -82,23 +82,32 @@ export const MovieCard = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   max-width: 225px;
+  height: calc(100% - 1em);
   margin: 1em;
   padding: 1.5em;
   border: 1.5px solid #a8a8a8;
   box-shadow: 2px 2px 0 0 #a8a8a8;
-  border-radius: 25px;
+  border-radius: 15px;
   background-color: #fff;
 
   img {
     width: 175px;
-    border-radius: 15px;
+  }
+`;
+
+export const MovieDetails = styled.div`
+  width: 100%;
+  height: 100%;
+
+  h3 {
+    padding-top: 0.5em;
+    font-size: 24px;
   }
 
-  h3,
   h4 {
-    width: 100%;
+    font-size: 20px;
   }
 `;
 
@@ -108,9 +117,8 @@ export const FallbackPoster = styled.div`
   justify-content: center;
   align-items: center;
   width: 175px;
-  height: 243px;
-  border: 1px solid #a8a8a8;
-  border-radius: 15px;
+  min-height: 243px;
+  border: 1px solid rgba(0, 0, 0, 0.125);
 
   svg {
     height: 50px;
