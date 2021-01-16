@@ -44,8 +44,9 @@ function MovieNominationsApp() {
     axios
       .get(url)
       .then(({ data }) => {
-        if (data.Response === 'True') {
-          const movies = getMovies(data);
+        const { Response, Search, Error } = data;
+        if (Response === 'True') {
+          const movies = getMovies(Search);
           setState((prevState) => ({
             ...prevState,
             movies,
@@ -55,7 +56,7 @@ function MovieNominationsApp() {
         } else {
           setState((prevState) => ({
             ...prevState,
-            error: data.Error || '',
+            error: Error || '',
             status: 'rejected',
           }));
         }
