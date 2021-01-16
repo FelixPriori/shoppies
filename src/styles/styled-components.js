@@ -17,18 +17,38 @@ export const Dashboard = styled(Row)``;
 export const Separator = styled.hr``;
 
 export const Search = styled(Col)`
-  padding: 3em 1em;
-  & > div,
-  & > button {
-    max-width: 350px;
+  padding: 1em;
+  .card {
+    height: 100%;
+    .card-body {
+      height: 100%;
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+
+        h2 {
+          margin: 0;
+        }
+        #searchTerm {
+          max-width: 350px;
+        }
+        & > button {
+          max-width: fit-content;
+        }
+      }
+    }
   }
 `;
 
 export const Instructions = styled(Col)`
-  padding: 1em;
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 100%;
+  padding: 1em;
 `;
 
 export const MovieLists = styled(Row)`
