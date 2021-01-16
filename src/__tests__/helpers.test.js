@@ -15,12 +15,10 @@ const buildSearchData = () => ({
   Year: faker.random.number(),
 });
 
-test('getMovies should take in the Search array and return a new array of objects using that data', () => {
+test('getMovies should take in the search data array and return a new array of objects using that data', () => {
   const searchData = buildSearchData();
-  const data = {
-    Search: [searchData],
-  };
-  const received = getMovies(data);
+
+  const received = getMovies([searchData]);
   const expected = [
     {
       title: searchData.Title,
