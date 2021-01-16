@@ -7,6 +7,7 @@ import { ReactComponent as RemoveIcon } from '../assets/close-outline.svg';
 import {
   MovieWrapper,
   MovieCard,
+  MovieDetails,
   ButtonsContainer,
   TrophyContainer,
   FallbackPoster,
@@ -43,9 +44,11 @@ function Movie({
       <MovieCard>
         <MoviePoster img={poster} title={title} />
 
-        <h3>{title}</h3>
+        <MovieDetails>
+          <h3>{title}</h3>
 
-        <h4>{year}</h4>
+          <h4>{year}</h4>
+        </MovieDetails>
 
         <ButtonsContainer>
           {!isNominationList && (
