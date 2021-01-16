@@ -3,7 +3,6 @@ import { useLocalNominations } from '../hooks/useLocalNominations';
 import axios from 'axios';
 import {
   Button,
-  Label,
   Input,
   FormGroup,
   Container,
@@ -111,21 +110,7 @@ function MovieNominationsApp() {
       <Separator />
 
       <Dashboard>
-        <Search sm="6">
-          <FormGroup>
-            <Label htmlFor="searchTerm">Search</Label>
-            <Input
-              type="text"
-              id="searchTerm"
-              onChange={(e) => onSearchTermChange(e.target.value)}
-              value={searchTerm}
-            />
-          </FormGroup>
-          <Button type="button" onClick={onClearSearch} color="outline">
-            Clear Search
-          </Button>
-        </Search>
-        <Instructions sm="6">
+        <Instructions sm={{ size: 6, order: 2 }}>
           <Card>
             <CardBody>
               <CardTitle tag="h2">Instructions</CardTitle>
@@ -140,6 +125,27 @@ function MovieNominationsApp() {
             </CardBody>
           </Card>
         </Instructions>
+        <Search sm={{ size: 6, order: 1 }}>
+          <Card>
+            <CardBody>
+              <FormGroup>
+                <CardTitle tag="h2" id="searchTitle">
+                  Search
+                </CardTitle>
+                <Input
+                  type="text"
+                  id="searchTerm"
+                  aria-labelledby="searchTitle"
+                  onChange={(e) => onSearchTermChange(e.target.value)}
+                  value={searchTerm}
+                />
+                <Button type="button" onClick={onClearSearch} color="outline">
+                  Clear Search
+                </Button>
+              </FormGroup>
+            </CardBody>
+          </Card>
+        </Search>
       </Dashboard>
 
       <Separator />
