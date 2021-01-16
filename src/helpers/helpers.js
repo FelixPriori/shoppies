@@ -1,5 +1,5 @@
-export const getMovies = ({ Search }) =>
-  Search.map((movie) => ({
+export const getMovies = (movies) =>
+  movies.map((movie) => ({
     title: movie.Title,
     poster: movie.Poster,
     movieId: movie.imdbID,
