@@ -1,16 +1,32 @@
 import PropTypes from 'prop-types';
 import { Button } from 'reactstrap';
-import { ReactComponent as Trophy } from '../assets/trophy-outline.svg';
-import { ReactComponent as Add } from '../assets/add-outline.svg';
-import { ReactComponent as Remove } from '../assets/close-outline.svg';
-import { ReactComponent as Sad } from '../assets/sad-outline.svg';
+import { ReactComponent as TrophyIcon } from '../assets/trophy-outline.svg';
+import { ReactComponent as AddIcon } from '../assets/add-outline.svg';
+import { ReactComponent as SadIcon } from '../assets/sad-outline.svg';
+import { ReactComponent as RemoveIcon } from '../assets/close-outline.svg';
 import {
   MovieWrapper,
   MovieCard,
-  FallbackPoster,
-  ButtonContainer,
+  ButtonsContainer,
   TrophyContainer,
+  FallbackPoster,
 } from '../styles/styled-components';
+
+function MoviePoster({ img, title }) {
+  return img === 'N/A' ? (
+    <FallbackPoster>
+      <SadIcon />
+      <p>Image unavailable</p>
+    </FallbackPoster>
+  ) : (
+    <img src={img} alt={title} />
+  );
+}
+
+MoviePoster.propTypes = {
+  img: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+};
 
 function Movie({
   poster,
@@ -25,33 +41,29 @@ function Movie({
   return (
     <MovieWrapper>
       <MovieCard>
-        {poster === 'N/A' ? (
-          <FallbackPoster>
-            <Sad />
-            <p>Image unavailable</p>
-          </FallbackPoster>
-        ) : (
-          <img src={poster} alt={title} />
-        )}
+        <MoviePoster img={poster} title={title} />
+
         <h3>{title}</h3>
+
         <h4>{year}</h4>
-        <ButtonContainer>
+
+        <ButtonsContainer>
           {!isNominationList && (
             <Button disabled={nominated} onClick={() => onAdd(movieId)}>
-              <Add />
+              <AddIcon />
             </Button>
           )}
-          {(nominated || isNominationList) && (
+          {nominated && (
             <>
               <Button onClick={() => onRemove(movieId)}>
-                <Remove />
+                <RemoveIcon />
               </Button>
               <TrophyContainer>
-                <Trophy />
+                <TrophyIcon />
               </TrophyContainer>
             </>
           )}
-        </ButtonContainer>
+        </ButtonsContainer>
       </MovieCard>
     </MovieWrapper>
   );
@@ -66,6 +78,11 @@ Movie.propTypes = {
   movieId: PropTypes.string.isRequired,
   nominated: PropTypes.bool,
   isNominationList: PropTypes.bool,
+};
+
+Movie.defaultProps = {
+  nominated: false,
+  isNominationList: false,
 };
 
 export default Movie;
