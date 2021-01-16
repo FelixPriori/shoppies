@@ -1,5 +1,5 @@
 import faker from 'faker';
-import { getMovies, isMovieNominated } from '../helpers/helpers';
+import { getMovies, isMovieNominated } from '../utils/movieHelpers';
 
 const buildMovie = () => ({
   title: faker.lorem.sentence(),
