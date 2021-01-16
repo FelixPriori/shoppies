@@ -2,7 +2,7 @@
 
 Is a challenge project by Shopify and attempted by Felix Rioux Sabourin.
 
-## Prompt
+## Prompt & Requirements
 
 > Shopify has branched out into movie award shows and we need your help. Please build us an app to help manage our movie nominations for the upcoming Shoppies.
 >
@@ -16,16 +16,24 @@ Is a challenge project by Shopify and attempted by Felix Rioux Sabourin.
 > - View the list of films already nominated
 > - Remove a nominee from the nomination list
 
-[Click here to view full challenge & requirements](https://docs.google.com/document/d/1AZO0BZwn1Aogj4f3PDNe1mhq8pKsXZxtrG--EIbP_-w/edit?fbclid=IwAR0fYpYakJFioR5_w6Hq1UYagi5P22xdrxTOGfYIKwD9Pj_JK11yCT0iIMc)
+[Click here to view full challenge](https://docs.google.com/document/d/1AZO0BZwn1Aogj4f3PDNe1mhq8pKsXZxtrG--EIbP_-w/edit?fbclid=IwAR0fYpYakJFioR5_w6Hq1UYagi5P22xdrxTOGfYIKwD9Pj_JK11yCT0iIMc)
+
+### Extra features
+
+- The nomination list is saved and retrieved from local storage using the custom hook `useLocalNominations`
+- A "Clear Search" button is provided to quickly reset the search terms and clear the search results
+- API is called 200ms after the user has finished typing to prevent from hammering the endpoint
+- API and helper functions are tested in the `src/__tests__/` directory
+- The app is responsive and functional on any device size
 
 ## Instructions
 
 ### Setup
 
 1. Fork and/or clone project
-2. Get a free api key for the [OMDb api](http://www.omdbapi.com/apikey.aspx)
+2. Get a free API key for the [OMDb API](http://www.omdbapi.com/apikey.aspx)
 3. Copy `.env.example` to root of project and rename to `.env`
-4. Assign your api key to the variable `REACT_APP_OMDB` in your `.env` file
+4. Assign your API key to the variable `REACT_APP_OMDB` in your `.env` file
 
 ### To start the project in developmnent mode:
 
@@ -42,14 +50,6 @@ yarn test
 ### To see the project in production mode:
 
 https://felix-shoppies.netlify.app/
-
-## Extra features
-
-- The nomination list is saved and retrieved from local storage using the custom hook `useLocalNominations`
-- A "Clear Search" button is provided to quickly reset the search terms and clear the search results
-- API is called 200ms after the user has finished typing to prevent from hammering the endpoint
-- API and helper functions are tested in the `src/__tests__/` directory
-- The app is responsive and functional on any device size
 
 ## Used in this project
 
