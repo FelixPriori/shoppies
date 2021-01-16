@@ -13,7 +13,7 @@ import {
   CardText,
 } from 'reactstrap';
 import Movie from './Movie';
-import { getMovies, isMovieNominated } from '../helpers/helpers';
+import { getMovies, isMovieNominated } from '../utils/movieHelpers';
 import {
   Header,
   SearchPanel,
