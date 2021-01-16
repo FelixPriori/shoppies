@@ -94,6 +94,7 @@ export const MovieCard = styled.div`
 
   img {
     width: 175px;
+    height: 243px;
   }
 `;
 
